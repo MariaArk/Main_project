@@ -7,6 +7,7 @@
     android:background="@color/MainBgColor"
     tools:context=".OrderPage">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="65dp"
@@ -110,6 +111,7 @@
 
     <ImageButton
         android:id="@+id/imageButton"
+        android:onClick="payClients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"

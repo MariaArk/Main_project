@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     private void setCourseRecycler(List<Course> courseList) {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -95,4 +97,5 @@ public class MainActivity extends AppCompatActivity {
         courseAdapter.notifyDataSetChanged();
 
     }
+
 }
