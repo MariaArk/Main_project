@@ -2,25 +2,20 @@ package com.google.android.gms.samples.wallet.util;
 
 import android.app.Activity;
 import android.os.Build;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.google.android.gms.samples.wallet.util.Constants;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.wallet.IsReadyToPayRequest;
+import com.google.android.gms.samples.wallet.Constants;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
-import com.google.android.gms.wallet.callback.OnCompleteListener;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Optional;
 
 /**
  * Contains helper static methods for dealing with the Payments API.
@@ -32,9 +27,10 @@ import org.json.JSONObject;
 
 public class PayPurchases {
 
+    public static final BigDecimal CENTS_IN_A_UNIT = new BigDecimal(100d);
     private PayPurchases PaymentsUtil;
 
-    private static JSONObject getBaseRequest() throws JSONException {
+    public static JSONObject getBaseRequest() throws JSONException {
         return new JSONObject().put("apiVersion", 2).put("apiVersionMinor", 0);
     }
 
@@ -125,16 +121,17 @@ public class PayPurchases {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Optional<JSONObject> getPaymentDataRequest(long priceCents) {
 
-        final String price = PaymentsUtil.centsToString(priceCents);
+        final String price = PayPurchases.centsToString(priceCents);
 
         try {
-            JSONObject paymentDataRequest = PaymentsUtil.getBaseRequest();
+            JSONObject paymentDataRequest = PayPurchases.getBaseRequest();
             paymentDataRequest.put(
-                    "allowedPaymentMethods", new JSONArray().put(PaymentsUtil.getCardPaymentMethod()));
-            paymentDataRequest.put("transactionInfo", PaymentsUtil.getTransactionInfo(price));
-            paymentDataRequest.put("merchantInfo", PaymentsUtil.getMerchantInfo());
+                    "allowedPaymentMethods", new JSONArray().put(PayPurchases.getCardPaymentMethod()));
+            paymentDataRequest.put("transactionInfo", PayPurchases.getTransactionInfo(price));
+            paymentDataRequest.put("merchantInfo", PayPurchases.getMerchantInfo());
 
       /* An optional shipping address requirement is a top-level property of the PaymentDataRequest
       JSON object. */
@@ -154,6 +151,12 @@ public class PayPurchases {
         }
     }
 
+    public static String centsToString(long cents) {
+        return new BigDecimal(cents)
+                .divide(CENTS_IN_A_UNIT, RoundingMode.HALF_EVEN)
+                .setScale(2, RoundingMode.HALF_EVEN)
+                .toString();
+    }
 
 }
 

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.e_commerce"
@@ -14,7 +14,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        vectorDrawables.useSupportLibrary = true;
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -23,26 +23,37 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
+
+    viewBinding {
+        enabled = true
     }
 }
 apply plugin: 'com.android.application'
 dependencies {
     //noinspection GradleCompatible,GradleCompatible
     implementation "com.android.support:support-core-utils:28.0.0"
-    implementation 'com.google.android.gms:play-services-wallet:18.1.3'//гугл пэй
-    implementation 'com.google.android.gms:play-services-auth:19.2.0'//добавила недавно для входа в аккаунт
+    //noinspection GradleCompatible
+    implementation 'com.google.android.gms:play-services-wallet:19.0.0'//гугл пэй
+    implementation 'com.google.android.gms:play-services-auth:20.0.0'//добавила недавно для входа в аккаунт
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:24.1.1'//какая то фигня
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'com.google.ar.sceneform:sceneform-base:1.17.1'
-    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.5.2'
-    implementation 'com.google.android.gms:play-services-wallet:18.1.2'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }

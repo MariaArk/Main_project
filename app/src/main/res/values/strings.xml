@@ -11,4 +11,6 @@
     <string name="course_desc">Программа обучения Джава – рассчитана на новичков в данной сфере. За программу вы изучите построение графических приложений под ПК, разработку веб сайтов на основе Java Spring Boot, изучите построение полноценных Андроид приложений и отлично изучите сам язык Джава!</string>
     <string name="bascet">Корзина</string>
     <string name="pay_purchases">Оплатить</string>
+    <string name="payments_show_name">Successfully received payment data for %s!</string>
+    <string name="googlepay_status_unavailable">Unfortunately, Google Pay is not available on this device.</string>
 </resources>

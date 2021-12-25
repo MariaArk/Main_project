@@ -1,35 +1,35 @@
 package com.example.e_commerce;
 
+import static com.google.android.gms.samples.wallet.util.PayPurchases.getBaseRequest;
+
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.samples.wallet.Constants;
 import com.google.android.gms.wallet.IsReadyToPayRequest;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Toast;
-
-//import com.google.android.gms.samples.wallet.util.Notifications;
-//import com.google.android.gms.samples.wallet.util.PaymentsUtil;
-//import com.google.android.gms.samples.wallet.R;
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.wallet.AutoResolveHelper;
-import com.google.android.gms.wallet.PaymentData;
-import com.google.android.gms.wallet.PaymentDataRequest;
-import com.google.android.gms.wallet.PaymentsClient;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Optional;
+
+//import com.google.android.gms.samples.wallet.util.Notifications;
+//import com.google.android.gms.samples.wallet.util.PaymentsUtil;
+//import com.google.android.gms.samples.wallet.R;
+
 public class PayPurchases extends OrderPage {
+
     private PaymentsClient paymentsClient;
+    public static final BigDecimal CENTS_IN_A_UNIT = new BigDecimal(100d);
 
     public PayPurchases() throws JSONException {
     }
@@ -64,25 +64,28 @@ public class PayPurchases extends OrderPage {
     }
 
 
-/*    Task <Boolean> task = paymentsClient.isReadyToPay(readyToPayRequest);
-    task.addOnComplete(this, new OnCompleteListener<Boolean>(){
-       public void onComplete(@NonNull Task<Boolean> completeTask){
-           if (completeTask.isSuccesseful()){
-                showGooglePayButton(completeTask.getResult());
-           } else {
-
-           }
-        }
-    });*/
-
-    private void  showGooglePayButton(boolean userIsReadyToPay){
-        if(userIsReadyToPay){
-
-        } else {
-
-        }
-
+    public static PaymentsClient createPaymentsClient(Activity activity) {
+        Wallet.WalletOptions walletOptions =
+                new Wallet.WalletOptions.Builder().setEnvironment(Constants.PAYMENTS_ENVIRONMENT).build();
+        return Wallet.getPaymentsClient(activity, walletOptions);
     }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static Optional<JSONObject> getIsReadyToPayRequest() {
+        try {
+            JSONObject isReadyToPayRequest = getBaseRequest();
+            isReadyToPayRequest.put(
+                    "allowedPaymentMethods", new JSONArray().put(getCardPaymentMethod()));
+
+            return Optional.of(isReadyToPayRequest);
+
+        } catch (JSONException e) {
+            return Optional.empty();
+        }
+    }
+
+
 
     private static JSONObject getCardPaymentMethod() throws JSONException {
         final String[] networks = new String[] {"VISA", "MASTERCARD", "МИР"};
@@ -97,17 +100,55 @@ public class PayPurchases extends OrderPage {
         return card;
     }
 
-/*    final JSONObject paymentRequestJson = baseConfigurationJson();
-    paymentRequestJson.put("transactionInfo", new JSONObject()
-        .put("totalPrice", "132.45")
-        .put("totalPricestatus","FINAL")
-        .put("currencyCode","USD"));
+    private static JSONObject getTransactionInfo(String price) throws JSONException {
+        JSONObject transactionInfo = new JSONObject();
+        transactionInfo.put("totalPrice", price);
+        transactionInfo.put("totalPriceStatus", "FINAL");
+        transactionInfo.put("countryCode", Constants.COUNTRY_CODE);
+        transactionInfo.put("currencyCode", Constants.CURRENCY_CODE);
+        transactionInfo.put("checkoutOption", "COMPLETE_IMMEDIATE_PURCHASE");
 
-    paymentRequestJson.put("transactionInfo", new JSONObject()
-        .put("merchantId", "01234567890123456789")
-        .put("merchantName","Example merchant"));
+        return transactionInfo;
+    }
 
-    final PaymentDataRequest request = PaymentDataRequest.fromJson(paymentRequestJson.toString());
-    AutoResolveHelper.resolveTask(paymentClient.loadPaymentData(request),this, LOAD_PAYMENT_DATA_REQUEST_CODE);
-*/
+    private static JSONObject getMerchantInfo() throws JSONException {
+        return new JSONObject().put("merchantName", "Example Merchant");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static Optional<JSONObject> getPaymentDataRequest(long priceCents) {
+
+        final String price = PayPurchases.centsToString(priceCents);
+
+        try {
+            JSONObject paymentDataRequest = PayPurchases.baseConfigurationJson();
+            paymentDataRequest.put(
+                    "allowedPaymentMethods", new JSONArray().put(PayPurchases.getCardPaymentMethod()));
+            paymentDataRequest.put("transactionInfo", PayPurchases.getTransactionInfo(price));
+            paymentDataRequest.put("merchantInfo", PayPurchases.getMerchantInfo());
+
+      /* An optional shipping address requirement is a top-level property of the PaymentDataRequest
+      JSON object. */
+            paymentDataRequest.put("shippingAddressRequired", true);
+
+            JSONObject shippingAddressParameters = new JSONObject();
+            shippingAddressParameters.put("phoneNumberRequired", false);
+
+            JSONArray allowedCountryCodes = new JSONArray(Constants.SHIPPING_SUPPORTED_COUNTRIES);
+
+            shippingAddressParameters.put("allowedCountryCodes", allowedCountryCodes);
+            paymentDataRequest.put("shippingAddressParameters", shippingAddressParameters);
+            return Optional.of(paymentDataRequest);
+
+        } catch (JSONException e) {
+            return Optional.empty();
+        }
+    }
+
+        public static String centsToString ( long cents){
+            return new BigDecimal(cents)
+                    .divide(CENTS_IN_A_UNIT, RoundingMode.HALF_EVEN)
+                    .setScale(2, RoundingMode.HALF_EVEN)
+                    .toString();
+        }
 }

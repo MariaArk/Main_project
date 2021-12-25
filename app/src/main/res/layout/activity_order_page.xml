@@ -111,16 +111,17 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:onClick="payClients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:contentDescription="@string/app_name"
+        android:onClick="PayPush"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
         app:layout_constraintTop_toBottomOf="@+id/order_list"
         app:srcCompat="@drawable/ic_rectangle_13" />
+
 
     <TextView
         android:id="@+id/textView"
