@@ -144,20 +144,11 @@
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
         app:layout_constraintTop_toBottomOf="@+id/courseRecycler"
+
         app:layout_constraintVertical_bias="0.47"
         app:srcCompat="@drawable/ic_rectangle_13" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bascet"
-        android:textColor="@color/white"
-        android:fontFamily="@font/montserrat_bold"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton"
-        app:layout_constraintStart_toStartOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+        app:srcCompat="@drawable/ic_basket" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

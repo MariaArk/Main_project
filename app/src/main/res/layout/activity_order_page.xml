@@ -7,6 +7,7 @@
     android:background="@color/MainBgColor"
     tools:context=".OrderPage">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="65dp"
@@ -113,7 +114,9 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:contentDescription="@string/app_name"
+
         android:onClick="payPush"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.513"
@@ -121,6 +124,7 @@
         app:layout_constraintTop_toBottomOf="@+id/order_list"
         app:layout_constraintVertical_bias="0.543"
         app:srcCompat="@drawable/ic_rectangle_13" />
+
 
     <TextView
         android:id="@+id/textView"

@@ -1,18 +1,13 @@
-package com.example.e_commerce;
-
-import static com.google.android.gms.samples.wallet.util.PayPurchases.getBaseRequest;
+package com.google.android.gms.samples.wallet.util;
 
 import android.app.Activity;
 import android.os.Build;
-import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.samples.wallet.Constants;
-import com.google.android.gms.wallet.IsReadyToPayRequest;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
-import com.google.android.gms.wallet.WalletConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,35 +17,21 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
 
-//import com.google.android.gms.samples.wallet.util.Notifications;
-//import com.google.android.gms.samples.wallet.util.PaymentsUtil;
-//import com.google.android.gms.samples.wallet.R;
+/**
+ * Contains helper static methods for dealing with the Payments API.
+ *
+ * <p>Many of the parameters used in the code are optional and are set here merely to call out their
+ * existence. Please consult the documentation to learn more and feel free to remove ones not
+ * relevant to your implementation.
+ */
 
-public class PayPurchases extends OrderPage {
+public class PayPurchases {
 
-    private PaymentsClient paymentsClient;
     public static final BigDecimal CENTS_IN_A_UNIT = new BigDecimal(100d);
+    private PayPurchases PaymentsUtil;
 
-    public PayPurchases() throws JSONException {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Wallet.WalletOptions walletOptions = new Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_TEST).build();
-
-        paymentsClient = Wallet.getPaymentsClient(this,walletOptions);
-
-    }
-
-    IsReadyToPayRequest readyToPayRequest = IsReadyToPayRequest.fromJson(baseConfigurationJson().toString());
-
-    private static JSONObject baseConfigurationJson() throws JSONException {
-        return new JSONObject()
-                .put("apiVersion", 2)
-                .put("apiVersionMinor", 0)
-                .put("allowedPaymentMethods", new JSONArray().put(getCardPaymentMethod()));
-
+    public static JSONObject getBaseRequest() throws JSONException {
+        return new JSONObject().put("apiVersion", 2).put("apiVersionMinor", 0);
     }
 
     private static JSONObject getGatewayTokenizationSpecification() throws JSONException {
@@ -63,6 +44,45 @@ public class PayPurchases extends OrderPage {
         }};
     }
 
+    private static JSONArray getAllowedCardNetworks() {
+        return new JSONArray()
+                .put("МИР")
+                .put("MASTERCARD")
+                .put("VISA");
+    }
+
+    private static JSONArray getAllowedCardAuthMethods() {
+        return new JSONArray()
+                .put("PAN_ONLY")
+                .put("CRYPTOGRAM_3DS");
+    }
+
+    private static JSONObject getBaseCardPaymentMethod() throws JSONException {
+        JSONObject cardPaymentMethod = new JSONObject();
+        cardPaymentMethod.put("type", "CARD");
+
+        JSONObject parameters = new JSONObject();
+        parameters.put("allowedAuthMethods", getAllowedCardAuthMethods());
+        parameters.put("allowedCardNetworks", getAllowedCardNetworks());
+        // Optionally, you can add billing address/phone number associated with a CARD payment method.
+        parameters.put("billingAddressRequired", true);
+
+        JSONObject billingAddressParameters = new JSONObject();
+        billingAddressParameters.put("format", "FULL");
+
+        parameters.put("billingAddressParameters", billingAddressParameters);
+
+        cardPaymentMethod.put("parameters", parameters);
+
+        return cardPaymentMethod;
+    }
+
+    private static JSONObject getCardPaymentMethod() throws JSONException {
+        JSONObject cardPaymentMethod = getBaseCardPaymentMethod();
+        cardPaymentMethod.put("tokenizationSpecification", getGatewayTokenizationSpecification());
+
+        return cardPaymentMethod;
+    }
 
     public static PaymentsClient createPaymentsClient(Activity activity) {
         Wallet.WalletOptions walletOptions =
@@ -70,13 +90,12 @@ public class PayPurchases extends OrderPage {
         return Wallet.getPaymentsClient(activity, walletOptions);
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static Optional<JSONObject> getIsReadyToPayRequest() {
         try {
             JSONObject isReadyToPayRequest = getBaseRequest();
             isReadyToPayRequest.put(
-                    "allowedPaymentMethods", new JSONArray().put(getCardPaymentMethod()));
+                    "allowedPaymentMethods", new JSONArray().put(getBaseCardPaymentMethod()));
 
             return Optional.of(isReadyToPayRequest);
 
@@ -86,23 +105,9 @@ public class PayPurchases extends OrderPage {
     }
 
 
-
-    private static JSONObject getCardPaymentMethod() throws JSONException {
-        final String[] networks = new String[] {"VISA", "MASTERCARD", "МИР"};
-        final String[] authMethods = new String[] {"RAY_ONLY","CRYPTOGRAM_3DS"};
-
-        JSONObject card = new JSONObject();
-        card.put("type", "CARD");
-        card.put("tokenizationSpecification", getGatewayTokenizationSpecification());
-        card.put("parameters", new JSONObject()
-            .put("allowedAuthMethods", new JSONObject(String.valueOf(authMethods)))
-            .put("allowedCardMethods", new JSONObject(String.valueOf(networks))));
-        return card;
-    }
-
     private static JSONObject getTransactionInfo(String price) throws JSONException {
         JSONObject transactionInfo = new JSONObject();
-        transactionInfo.put("totalPrice", price);
+        transactionInfo.put("Цена", price);
         transactionInfo.put("totalPriceStatus", "FINAL");
         transactionInfo.put("countryCode", Constants.COUNTRY_CODE);
         transactionInfo.put("currencyCode", Constants.CURRENCY_CODE);
@@ -115,13 +120,14 @@ public class PayPurchases extends OrderPage {
         return new JSONObject().put("merchantName", "Example Merchant");
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static Optional<JSONObject> getPaymentDataRequest(long priceCents) {
 
         final String price = PayPurchases.centsToString(priceCents);
 
         try {
-            JSONObject paymentDataRequest = PayPurchases.baseConfigurationJson();
+            JSONObject paymentDataRequest = PayPurchases.getBaseRequest();
             paymentDataRequest.put(
                     "allowedPaymentMethods", new JSONArray().put(PayPurchases.getCardPaymentMethod()));
             paymentDataRequest.put("transactionInfo", PayPurchases.getTransactionInfo(price));
@@ -145,10 +151,14 @@ public class PayPurchases extends OrderPage {
         }
     }
 
-        public static String centsToString ( long cents){
-            return new BigDecimal(cents)
-                    .divide(CENTS_IN_A_UNIT, RoundingMode.HALF_EVEN)
-                    .setScale(2, RoundingMode.HALF_EVEN)
-                    .toString();
-        }
+    public static String centsToString(long cents) {
+        return new BigDecimal(cents)
+                .divide(CENTS_IN_A_UNIT, RoundingMode.HALF_EVEN)
+                .setScale(2, RoundingMode.HALF_EVEN)
+                .toString();
+    }
+
 }
+
+
+

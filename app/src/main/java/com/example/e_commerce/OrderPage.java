@@ -1,5 +1,6 @@
 package com.example.e_commerce;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,10 +19,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.PurchaseInfo;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.e_commerce.model.Course;
 import com.example.e_commerce.model.Order;
+import com.google.android.gms.samples.wallet.activity.CheckoutActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +45,13 @@ public class OrderPage extends Activity implements BillingProcessor.IBillingHand
     private static final String MERCHANT_ID=null;
 
 
+
+
+    public void PayPush(View view){
+        Intent intent = new Intent(this, CheckoutActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +60,12 @@ public class OrderPage extends Activity implements BillingProcessor.IBillingHand
         ListView order_list = findViewById(R.id.order_list);
 
         List<String> coursesTitle = new ArrayList<>();
-        for(Course c: MainActivity.fullCourseList){
-            if(Order.itemsId.contains(c.getId())) coursesTitle.add(c.getTitle());
+        for (Course c : MainActivity.fullCourseList) {
+            if (Order.itemsId.contains(c.getId())) coursesTitle.add(c.getTitle());
         }
 
         order_list.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, coursesTitle));
+
 
         bp = new BillingProcessor(this, LICENSE_KEY, this );
         bp.initialize();
@@ -115,3 +130,9 @@ public class OrderPage extends Activity implements BillingProcessor.IBillingHand
     }
 
 }
+
+
+    }
+}
+
+
