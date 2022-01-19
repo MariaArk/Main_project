@@ -15,19 +15,12 @@
      limitations under the License.
 -->
 
-<resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="MainBgColor">#F6F6F6</color>
-    <color name="courses_1">#424345</color>
-    <color name="courses_2">#9FA52D</color>
-    <color name="AsaidBgColor">#EAEAEA</color>
-    <color name="name_of_app">#EC6D6D</color>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
 
-    <color name="price_button_grey">#555</color>
-</resources>
+    <size
+        android:width="@dimen/price_option_size"
+        android:height="@dimen/price_option_size" />
+
+    <solid android:color="#ddd" />
+</shape>

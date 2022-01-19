@@ -1,4 +1,6 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">E-Commerce</string>
     <string name="sales_icon">Sales</string>
     <string name="contact_text">контакты</string>
@@ -11,6 +13,20 @@
     <string name="course_desc">Программа обучения Джава – рассчитана на новичков в данной сфере. За программу вы изучите построение графических приложений под ПК, разработку веб сайтов на основе Java Spring Boot, изучите построение полноценных Андроид приложений и отлично изучите сам язык Джава!</string>
     <string name="bascet">Корзина</string>
     <string name="pay_purchases">Оплатить</string>
-    <string name="payments_show_name">Successfully received payment data for %s!</string>
-    <string name="googlepay_status_unavailable">Unfortunately, Google Pay is not available on this device.</string>
+    <string name="result_buy">Итого:</string>
+
+    <string name="store_name" translatable="false">Auto T-Shirt Shop</string>
+
+    <!-- Payment notification -->
+    <string name="channel_name">Платежный канал</string>
+    <string name="send_notification">Отправить уведомление</string>
+    <string name="notification_title" translatable="false">Пополнение счета</string>
+    <string name="notification_text">Баланс вашего счета близок к нулю. Долейте его прямо сейчас.</string>
+    <string name="pay_other_method">Пополнение счета другим способом</string>
+
+    <!-- Checkout -->
+    <string name="googlepay_status_unavailable">К сожалению, Google Play недоступен на этом устройстве.</string>
+    <string name="payments_show_name">Успешно получены платежные данные для %s!</string>
+    <string name="gateway_replace_name_example">"Gateway name set to \"example\" - please modify Constants.java and replace it with your own gateway."</string>
+    <string name="checkout_item_description">Описание</string>
 </resources>

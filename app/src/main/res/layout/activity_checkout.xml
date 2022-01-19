@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:fillViewport="true"
-    tools:context="com.google.android.gms.samples.wallet.activity.CheckoutActivity">
+    tools:context="com.google.android.gms.samples.CheckoutActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_python_3" />
+            android:src="@drawable/ts_10_11019a" />
 
         <TextView
             android:id="@+id/detailTitle"
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="@string/app_name"
+            android:text="@string/checkout_item_description"
             android:textColor="#333333"
             android:textStyle="bold" />
 
@@ -56,14 +56,13 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="15dp"
             android:text="[Placeholder] A versatile full-zip that you can wear all day long and even..."
-            android:textColor="#777777"
-            tools:ignore="HardcodedText" />
+            android:textColor="#777777" />
 
         <include
             android:id="@+id/googlePayButton"
             layout="@layout/buy_with_googlepay_button"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/material_emphasis_medium"
+            android:layout_height="@dimen/buy_button_height"
             android:layout_marginBottom="20dp"
             android:visibility="gone" />
 
