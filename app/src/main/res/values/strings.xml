@@ -15,7 +15,7 @@
     <string name="pay_purchases">Оплатить</string>
     <string name="result_buy">Итого:</string>
 
-    <string name="store_name" translatable="false">Auto T-Shirt Shop</string>
+    <string name="store_name" translatable="false">Hobby for yourself</string>
 
     <!-- Payment notification -->
     <string name="channel_name">Платежный канал</string>

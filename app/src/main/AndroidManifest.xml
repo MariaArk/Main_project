@@ -13,7 +13,7 @@
         <activity
             android:name="com.google.android.gms.samples.CheckoutActivity"
             android:label="@string/store_name"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.AppCompat"
             android:exported="false">
         </activity>
@@ -21,7 +21,6 @@
         <activity
             android:name="com.google.android.gms.samples.PaymentTransparentActivity"
             android:launchMode="singleTask"
-            android:taskAffinity=""
             android:theme="@style/Transparent" />
 
         <activity

@@ -46,7 +46,7 @@ android {
         enabled = true
     }
 }
-apply plugin: 'com.android.application'
+
 dependencies {
 
 

@@ -21,42 +21,17 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ts_10_11019a" />
-
-        <TextView
-            android:id="@+id/detailTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="[Placeholder] Men's Tech Shell Full-Zip"
-            android:textColor="#333333"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:src="@drawable/dandelion" />
 
         <TextView
             android:id="@+id/detailPrice"
-            android:layout_width="wrap_content"
+            android:layout_width="348dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="$50.20"
-            android:textColor="#777777" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/checkout_item_description"
-            android:textColor="#333333"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/detailDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="15dp"
-            android:text="[Placeholder] A versatile full-zip that you can wear all day long and even..."
-            android:textColor="#777777" />
+            android:textAlignment="center"
+            android:textColor="#777777"
+            android:textSize="47sp" />
 
         <include
             android:id="@+id/googlePayButton"
@@ -65,6 +40,16 @@
             android:layout_height="@dimen/buy_button_height"
             android:layout_marginBottom="20dp"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/detailDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
+            android:text="[Placeholder] A versatile full-zip that you can wear all day long and even..."
+            android:textAlignment="center"
+            android:textColor="#777777" />
 
     </LinearLayout>
 
