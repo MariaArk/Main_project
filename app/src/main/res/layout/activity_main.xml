@@ -35,13 +35,15 @@
             android:layout_marginBottom="100dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
+            android:onClick="openContact"
             android:rotation="-90"
             android:text="@string/contact_text"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="OnClick" />
 
         <TextView
             android:id="@+id/about"
@@ -49,13 +51,15 @@
             android:layout_height="145dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
+            android:onClick="openAbout_us"
             android:rotation="-90"
             android:text="@string/about_text"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/contacts"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="OnClick" />
 
         <TextView
             android:id="@+id/main_scene"
@@ -64,12 +68,14 @@
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
             android:rotation="-90"
+            android:onClick="openMain"
             android:text="@string/main_scene_text"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/about"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="OnClick" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
