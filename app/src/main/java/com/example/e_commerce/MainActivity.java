@@ -33,12 +33,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         List<Category> categoryList = new ArrayList<>();
-        categoryList.add(new Category(1,"Творчество"));
+
         categoryList.add(new Category(2,"Сайты"));
         categoryList.add(new Category(3,"Языки"));
         categoryList.add(new Category(4,"Прочее"));
 
         setCategoryRecycler(categoryList);
+
 
 
         courseList.add(new Course(1,"java", "Профессия Java\nразработчик", "1 января","Начальный","#424345", "Программа обучения Джава – рассчитана на новичков в данной сфере.За программу вы сможите изучить основы Java,изучите разработку веб сайтов на основе Java , изучите построение полноценных Андроид приложений.",3));
