@@ -22,7 +22,7 @@ import java.util.Optional;
 
 public class PaymentTransparentActivity extends AppCompatActivity {
 
-  // Arbitrarily-picked constant integer you define to track a request for payment data activity.
+  // Произвольно выбранное постоянное целое число, которое мы определяем для отслеживания запроса на получение платежных данных.
   private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 991;
 
   @RequiresApi(api = Build.VERSION_CODES.N)
@@ -30,7 +30,7 @@ public class PaymentTransparentActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // Dismiss the notification UI if the activity was opened from a notification
+    // Отключаем пользовательский интерфейс уведомлений, если действие было открыто из уведомления
     if (Notifications.ACTION_PAY_GOOGLE_PAY.equals(getIntent().getAction())) {
       sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
@@ -53,15 +53,14 @@ public class PaymentTransparentActivity extends AppCompatActivity {
             break;
 
           case Activity.RESULT_CANCELED:
-            // The user simply cancelled without selecting a payment method.
+            // Пользователь просто отменил платеж, не выбрав способ оплаты.
             break;
 
           case AutoResolveHelper.RESULT_ERROR:
-            // Get more details on the error with – AutoResolveHelper.getStatusFromIntent(data);
             break;
         }
 
-        // Close the activity
+        // закрытие activity
         finishAndRemoveTask();
     }
   }
@@ -69,7 +68,7 @@ public class PaymentTransparentActivity extends AppCompatActivity {
   @RequiresApi(api = Build.VERSION_CODES.N)
   private void showPaymentsSheet() {
 
-    // Fetch the price based on the user selection
+    // Получаем цену на основе выбора пользователя
     long priceCents = getIntent().getLongExtra(Notifications.OPTION_PRICE_EXTRA, 2500L);
 
     // TransactionInfo transaction = PaymentsUtil.createTransaction(price);
@@ -89,23 +88,19 @@ public class PaymentTransparentActivity extends AppCompatActivity {
     }
   }
 
-  /**
-   * PaymentData response object contains the payment information, as well as any additional
-   * requested information, such as billing and shipping address.
-   *
-   * @param paymentData A response object returned by Google after a payer approves payment.
-   * @see <a href="https://developers.google.com/pay/api/android/reference/
-   * object#PaymentData">PaymentData</a>
-   */
+//    PaymentData объект ответа содержит платежную информацию, а также дополнительные
+//    запрашиваемая информация, такая как адрес выставления счетов и доставки.
+//   Данные об оплате Объект ответ, возвращаемый Google после оплаты, одобренной плательщиком.
+
   private void handlePaymentSuccess(PaymentData paymentData) {
 
-    // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
+    // Токен будет равен нулю, если запрос платежных данных не был создан с использованием PafromJson(String).
     final String paymentInfo = paymentData.toJson();
     if (paymentInfo == null) {
       return;
     }
 
-    // Remove the payment notification
+    // Удалить уведомление об оплате
     Notifications.remove(this);
 
     try {

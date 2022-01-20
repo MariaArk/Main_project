@@ -1,7 +1,7 @@
 package com.example.e_commerce.model;
 
 public class Course {
-
+    // инициализируем все нужные поля
     int id, category;
     String img;
     String title;
@@ -9,7 +9,7 @@ public class Course {
     String level;
     String color;
     String text;
-
+    // через конструктор мы сразу сможем устанавливать идентификатор и название, цену, уровень сложности, описание, цвет и категорию
     public Course(int id, String img, String title, String price, String level, String color, String text, int category) {
         this.id = id;
         this.img = img;
@@ -20,7 +20,7 @@ public class Course {
         this.text = text;
         this.category = category;
     }
-
+    // создаем геттеры и сеттеры
     public int getCategory() {
         return category;
     }

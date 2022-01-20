@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Constants {
-
+// Инициализируем все необходимое для работы
   public static final int PAYMENTS_ENVIRONMENT = WalletConstants.ENVIRONMENT_TEST;
 
   public static final List<String> SUPPORTED_NETWORKS = Arrays.asList(
@@ -28,7 +28,7 @@ public class Constants {
       new HashMap<String, String>() {{
         put("gateway", PAYMENT_GATEWAY_TOKENIZATION_NAME);
         put("gatewayMerchantId", "exampleGatewayMerchantId");
-// Вашему процессору могут потребоваться дополнительные параметры.
+// нам могут потребоваться дополнительные параметры.
       }};
 
   public static final String DIRECT_TOKENIZATION_PUBLIC_KEY = "REPLACE_ME";

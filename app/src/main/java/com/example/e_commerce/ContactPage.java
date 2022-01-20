@@ -13,14 +13,12 @@ public class ContactPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_page);
     }
+    // В данных  методах мы осуществляем переходы на страницы, которые расположены на боковой панеле
     public void openMain(View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-    public void openContact(View view){
-        Intent intent = new Intent(this, ContactPage.class);
-        startActivity(intent);
-    }
+
     public void openAbout_us(View view){
         Intent intent = new Intent(this, About_usPage.class);
         startActivity(intent);

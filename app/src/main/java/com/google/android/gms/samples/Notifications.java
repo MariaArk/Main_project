@@ -65,10 +65,10 @@ public class Notifications {
     final Resources res = context.getResources();
     final String packageName = context.getPackageName();
 
-// Создайте пользовательский макет уведомлений
+// Создаем пользовательский макет уведомлений
     RemoteViews notificationLayout = new RemoteViews(packageName, R.layout.notification_top_up_account);
 
-// Создает выбираемые параметры
+// Создаем выбираемые параметры
     final List<String> options = new ArrayList<>(OPTION_PRICE_CENTS.keySet());
     for (String option : options) {
 
@@ -84,7 +84,7 @@ public class Notifications {
       notificationLayout.setTextColor(buttonId, optionColor);
       notificationLayout.setInt(buttonId, "setBackgroundResource", optionBg);
 
-// Создать ожидающее намерение для ответа на событие щелчка
+// Создаем ожидающее намерение для ответа на событие щелчка
       Intent selectOptionIntent = new Intent(context, PaymentNotificationIntentService.class);
       selectOptionIntent.setAction(ACTION_SELECT_PREFIX + option);
       notificationLayout.setOnClickPendingIntent(buttonId, PendingIntent.getService(
@@ -92,14 +92,14 @@ public class Notifications {
           PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
-// Установить действие кнопки Google Pay
+// Установливаем действие кнопки Google Pay
     Intent payIntent = new Intent(context, PaymentTransparentActivity.class);
     payIntent.setAction(ACTION_PAY_GOOGLE_PAY);
     payIntent.putExtra(OPTION_PRICE_EXTRA, OPTION_PRICE_CENTS.get(selectedOption));
     notificationLayout.setOnClickPendingIntent(
         R.id.googlePayButton, pendingIntentForActivity(context, payIntent));
 
-// Создайте уведомление и установите канал уведомления
+// Создаем уведомление и установливаем канал уведомления
     Notification notification = new NotificationCompat
         .Builder(context, NOTIFICATION_CHANNEL_ID)
         .setSmallIcon(R.mipmap.ic_launcher)
@@ -111,7 +111,7 @@ public class Notifications {
         .setOnlyAlertOnce(true)
         .build();
 
-// Инициировать или обновить уведомление.
+// Инициировали или обновили уведомление.
     NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification);
   }
 

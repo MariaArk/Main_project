@@ -40,7 +40,7 @@ import java.util.Optional;
 
 public class CheckoutActivity extends AppCompatActivity {
 
-// Произвольно выбранное постоянное целое число, которое вы определяете для отслеживания запроса на получение платежных данных.
+// Произвольно выбранное постоянное целое число, которое мы определили для отслеживания запроса на получение платежных данных.
   private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 991;
 
   private static final long SHIPPING_COST_CENTS = 100 * PaymentsUtil.CENTS_IN_A_UNIT.longValue();
@@ -62,12 +62,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
     initializeUi();
 
-    // Создавайте каналы уведомлений в соответствии с рекомендациями
+    // Создали каналы уведомлений
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       Notifications.createNotificationChannelIfNotCreated(this);
     }
 
-    // Настройте макет информации для нашего элемента в пользовательском интерфейсе.
+    // Настроили макет информации для нашего элемента в пользовательском интерфейсе.
     try {
       selectedGarment = Buy_Garment();
       displayGarment(selectedGarment);
@@ -75,8 +75,8 @@ public class CheckoutActivity extends AppCompatActivity {
       throw new RuntimeException("The list of garments cannot be loaded");
     }
 
-// Инициализируйте клиент API Google Pay для среды, подходящей для тестирования.
-    // Рекомендуется создать объект клиента платежей внутри метода onCreate.    paymentsClient = PaymentsUtil.createPaymentsClient(this);
+// Инициализировали клиент API Google Pay для среды, подходящей для тестирования.
+
     possiblyShowGooglePayButton();
   }
 
@@ -123,23 +123,23 @@ public class CheckoutActivity extends AppCompatActivity {
             break;
         }
 
-        // Повторно включите кнопку оплаты в Google Play.
+        // Повторно включаем кнопку оплаты в Google Play.
         googlePayButton.setClickable(true);
     }
   }
 
   private void initializeUi() {
 
-    // Используйте привязку представления для доступа к элементам пользовательского интерфейса
+    // Используем привязку представления для доступа к элементам пользовательского интерфейса
     layoutBinding = ActivityCheckoutBinding.inflate(getLayoutInflater());
     setContentView(layoutBinding.getRoot());
 
-    // Отключите пользовательский интерфейс уведомлений, если действие было открыто из уведомления
+    // Отключили пользовательский интерфейс уведомлений, если действие было открыто из уведомления
     if (Notifications.ACTION_PAY_GOOGLE_PAY.equals(getIntent().getAction())) {
       sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
-    // Кнопка Google Pay представляет собой файл макета – используйте корневой вид
+    // Кнопка Google Pay представляет собой файл макета
     googlePayButton = layoutBinding.googlePayButton.getRoot();
     googlePayButton.setOnClickListener(
         new View.OnClickListener() {
@@ -175,7 +175,7 @@ public class CheckoutActivity extends AppCompatActivity {
       return;
     }
 
-    // Вызов Готов заплатить является асинхронным и возвращает задачу. Нам нужно предоставить
+    // Вызов Готов заплатить он является асинхронным и возвращает задачу.
     // OnCompleteListener запускается, когда известен результат вызова.
     IsReadyToPayRequest request = IsReadyToPayRequest.fromJson(isReadyToPayJson.get().toString());
     Task<Boolean> task = paymentsClient.isReadyToPay(request);
@@ -251,7 +251,7 @@ public class CheckoutActivity extends AppCompatActivity {
     // Отключает кнопку, чтобы предотвратить многократные нажатия.
     googlePayButton.setClickable(false);
 
-    // Цена, предоставляемая API, должна включать налоги и доставку.
+    // Цена, предоставляемая API, включает налоги и доставку.
     // Эта цена не отображается пользователю.
     try {
       double garmentPrice = selectedGarment.getDouble("price");
@@ -283,12 +283,12 @@ public class CheckoutActivity extends AppCompatActivity {
   @RequiresApi(api = Build.VERSION_CODES.N)
   private JSONObject Buy_Garment() {
 
-    // Only load the list of items if it has not been loaded before
+    // Загружаем список элементов только в том случае, если он не был загружен ранее
     if (garmentList == null) {
       garmentList = Json.readFromResources(this, R.raw.course);
     }
 
-    // Take a random element from the list
+    // Возьмем случайный элемент из списка
     int Index = garmentList.length() -1;
     try {
       return garmentList.getJSONObject(Index);

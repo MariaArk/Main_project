@@ -15,21 +15,23 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
-
+// Содержит вспомогательные статические методы для работы с API платежей.
 public class PaymentsUtil {
 
   public static final BigDecimal CENTS_IN_A_UNIT = new BigDecimal(100d);
-
+// Создаем базовый объект запроса API Google Pay со свойствами, используемыми во всех запросах.
   private static JSONObject getBaseRequest() throws JSONException {
     return new JSONObject().put("apiVersion", 2).put("apiVersionMinor", 0);
   }
-
+// Создает экземпляр клиента платежей {@link PaymentsClient} для использования в операции {@link Activity} с использованием
+//* окружающая среда и тема задаются в константах  {@link Constants}.
   public static PaymentsClient createPaymentsClient(Activity activity) {
     Wallet.WalletOptions walletOptions =
         new Wallet.WalletOptions.Builder().setEnvironment(Constants.PAYMENTS_ENVIRONMENT).build();
     return Wallet.getPaymentsClient(activity, walletOptions);
   }
-
+// В ответе API Google Play будет возвращен зашифрованный способ оплаты, который может взиматься
+//с поддерживаемого шлюза после авторизации плательщика.
   private static JSONObject getGatewayTokenizationSpecification() throws JSONException {
     return new JSONObject() {{
       put("type", "PAYMENT_GATEWAY");
@@ -57,7 +59,7 @@ public class PaymentsUtil {
 
     return tokenizationSpecification;
   }
-
+// Card network, поддерживаемые вашим приложением и вашим шлюзом.
   private static JSONArray getAllowedCardNetworks() {
     return new JSONArray(Constants.SUPPORTED_NETWORKS);
   }
@@ -66,6 +68,10 @@ public class PaymentsUtil {
     return new JSONArray(Constants.SUPPORTED_METHODS);
   }
 
+// Предоставленные свойства применимы как к запросу "Готов заплатить", так и к
+// PaymentDataRequest.
+
+//@return объект Метода оплаты КАРТОЙ, описывающий принятые карты.
   private static JSONObject getBaseCardPaymentMethod() throws JSONException {
     JSONObject cardPaymentMethod = new JSONObject();
     cardPaymentMethod.put("type", "CARD");
@@ -73,7 +79,6 @@ public class PaymentsUtil {
     JSONObject parameters = new JSONObject();
     parameters.put("allowedAuthMethods", getAllowedCardAuthMethods());
     parameters.put("allowedCardNetworks", getAllowedCardNetworks());
-// При желании вы можете добавить платежный адрес / номер телефона, связанный со способом оплаты КАРТОЙ.    parameters.put("billingAddressRequired", true);
 
     JSONObject billingAddressParameters = new JSONObject();
     billingAddressParameters.put("format", "FULL");
@@ -84,14 +89,14 @@ public class PaymentsUtil {
 
     return cardPaymentMethod;
   }
-
+// Способ оплаты КАРТОЙ с описанием принимаемых карт и дополнительных полей.
   private static JSONObject getCardPaymentMethod() throws JSONException {
     JSONObject cardPaymentMethod = getBaseCardPaymentMethod();
     cardPaymentMethod.put("tokenizationSpecification", getGatewayTokenizationSpecification());
 
     return cardPaymentMethod;
   }
-
+// API version and payment methods supported by the app.
   @RequiresApi(api = Build.VERSION_CODES.N)
   public static Optional<JSONObject> getIsReadyToPayRequest() {
     try {
@@ -105,7 +110,7 @@ public class PaymentsUtil {
       return Optional.empty();
     }
   }
-
+//  Предоставляем API Google Pay сумму платежа, валюту и статус суммы.
   private static JSONObject getTransactionInfo(String price) throws JSONException {
     JSONObject transactionInfo = new JSONObject();
     transactionInfo.put("totalPrice", price);
@@ -116,11 +121,11 @@ public class PaymentsUtil {
 
     return transactionInfo;
   }
-
+// Информация о продавце, запрашивающем платежную информацию
   private static JSONObject getMerchantInfo() throws JSONException {
     return new JSONObject().put("merchantName", "Example Merchant");
   }
-
+// Объект, описывающий информацию, запрошенную в платежной ведомости Google Pay
   @RequiresApi(api = Build.VERSION_CODES.N)
   public static Optional<JSONObject> getPaymentDataRequest(long priceCents) {
 
@@ -139,7 +144,7 @@ public class PaymentsUtil {
       return Optional.empty();
     }
   }
-
+// Преобразует центы в строковый формат.
   public static String centsToString(long cents) {
     return new BigDecimal(cents)
         .divide(CENTS_IN_A_UNIT, RoundingMode.HALF_EVEN)

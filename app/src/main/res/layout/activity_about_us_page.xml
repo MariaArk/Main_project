@@ -50,7 +50,6 @@
             android:layout_height="145dp"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
-            android:onClick="openAbout_us"
             android:rotation="-90"
             android:text="@string/about_text"
             android:textColor="@color/black"

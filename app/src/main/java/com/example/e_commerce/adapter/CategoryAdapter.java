@@ -19,7 +19,7 @@ import com.example.e_commerce.model.Category;
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
-
+    // создаем новое поле класс Context и список на основе модели категорий
     Context context;
     List<Category> categories;
 
@@ -27,14 +27,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         this.context = context;
         this.categories = categories;
     }
-
+    // в данном методе указываем какой конкретно дизайн мы будем использовать для отображения каждого элемента
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View categoryItem = LayoutInflater.from(context).inflate(R.layout.category_item, parent, false);
         return new CategoryViewHolder(categoryItem);
     }
-
+    // указали, что конкретно подставили в сам дизайн
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.categoryTitle.setText(categories.get(position).getTitle());
@@ -51,7 +51,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public int getItemCount() {
         return categories.size();
     }
-
+    // в нашем вложенном классе указали с какими элементами в дизайне мы с вами работаем
     public static final class CategoryViewHolder extends RecyclerView.ViewHolder{
 
     TextView categoryTitle;

@@ -25,7 +25,7 @@ public class OrderPage extends AppCompatActivity {
         Intent intent = new Intent(this, CheckoutActivity.class);
         startActivity(intent);
     }
-
+    // Метод для оплаты курсов, который также подсчитает нам общую стоимость
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,19 @@ public class OrderPage extends AppCompatActivity {
         order_list.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, coursesTitle));
 
 
+    }
+    // В данных  методах мы осуществляем переходы на страницы, которые расположены на боковой панеле
+    public void openMain(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+    public void openContact(View view){
+        Intent intent = new Intent(this, ContactPage.class);
+        startActivity(intent);
+    }
+    public void openAbout_us(View view){
+        Intent intent = new Intent(this, About_usPage.class);
+        startActivity(intent);
     }
 }
 

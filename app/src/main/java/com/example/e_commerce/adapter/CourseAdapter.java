@@ -22,14 +22,15 @@ import com.example.e_commerce.R;
 import com.example.e_commerce.model.Course;
 
 import java.util.List;
-
+// создаем адаптер, все наследуем от класса RecyclerView
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.courseViewHolder> {
-
+    // создаем новое поле класс Context и список на основе модели курсов
     Context context;
     List<Course> courses;
 
     @NonNull
     @Override
+    // в данном методе указываем какой конкретно дизайн мы будем использовать для отображения каждого элемента
     public courseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View courseItem = LayoutInflater.from(context).inflate(R.layout.course_item, parent, false);
         return new courseViewHolder(courseItem);
@@ -39,7 +40,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.courseView
         this.context = context;
         this.courses = courses;
     }
-
+    // указали, что конкретно подставили в сам дизайн
     @Override
     public void onBindViewHolder(@NonNull courseViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.courseBg.setCardBackgroundColor(Color.parseColor(courses.get(position).getColor()));
@@ -73,16 +74,17 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.courseView
     }
 
     @Override
+    // возвращаем размерность нашего списка
     public int getItemCount() {
         return courses.size();
     }
-
+    // в нашем вложенном классе указали с какими элементами в дизайне мы с вами работаем
     public static final class courseViewHolder extends RecyclerView.ViewHolder{
 
         CardView courseBg;
         ImageView courseImage;
         TextView courseTitle, coursePrice, courseLevel;
-
+        // создали конструктор
         public courseViewHolder(@NonNull View itemView) {
             super(itemView);
             courseBg = itemView.findViewById(R.id.courseBg);
